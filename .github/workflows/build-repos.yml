@@ -14,7 +14,8 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./scripts
+        shell: bash
+        working-directory: .github/scripts
     steps:
       - uses: actions/checkout@v5
       - id: gpg-import
