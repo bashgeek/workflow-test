@@ -9,12 +9,12 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
       - id: gpg-import
-        uses: crazy-max/ghaction-import-gpg
+        uses: crazy-max/ghaction-import-gpg@v6
         with:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
           passphrase: ${{ secrets.GPG_PASSWORD }}
@@ -31,3 +31,5 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.PKG_S3_SECRET }}
           SOURCE_DIR: 'build/repos'
           DEST_DIR: ''
+
+
