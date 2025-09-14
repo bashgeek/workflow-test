@@ -1,0 +1,5 @@
+name: Build and Publish Repos
+
+on:
+  release:
+    types: [released]
