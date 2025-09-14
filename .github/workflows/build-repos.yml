@@ -21,6 +21,8 @@ jobs:
           passphrase: ${{ secrets.GPG_PASSWORD }}
       - id: build-repos
         run: |
+          echo ${PWD}
+          tree ${PWD}
           bash ${PWD}/scripts/build_repos.sh
       - uses: jakejarvis/s3-sync-action@master
         with:
