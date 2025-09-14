@@ -12,6 +12,9 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./scripts
     steps:
       - uses: actions/checkout@v5
       - id: gpg-import
@@ -19,11 +22,11 @@ jobs:
         with:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
           passphrase: ${{ secrets.GPG_PASSWORD }}
+      - name: Make the script files executable
+        run: chmod +x build_repos.sh
       - id: build-repos
         run: |
-          echo ${PWD}
-          tree ${PWD}
-          bash ${PWD}/scripts/build_repos.sh
+          ./build_repos.sh
       - uses: jakejarvis/s3-sync-action@master
         with:
           args: --acl public-read --follow-symlinks --delete
