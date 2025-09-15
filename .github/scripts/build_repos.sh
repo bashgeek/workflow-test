@@ -5,7 +5,9 @@ export DEBIAN_PRIORITY=critical
 
 export CREATEREPO_VERSION=1.2.1
 export CREATEREPO_BIN="/tmp/createrepo_c-${CREATEREPO_VERSION}/build/src/createrepo_c"
+# openbao key
 #export GPG_SIGNING_KEY="${GPG_SIGNING_KEY:-E617DCD4065C2AFC0B2CF7A7BA8BC08C0F691F94}"
+# test repo key
 export GPG_SIGNING_KEY="${GPG_SIGNING_KEY:-E83853A942C9BC0AEBFBF6C1101E0B17B596C6A5}"
 
 function install_deps() {(
