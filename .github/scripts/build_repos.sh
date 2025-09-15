@@ -119,7 +119,7 @@ _EOF
         name="$(basename "$deb")"
 
         wget --no-verbose "$deb" --output-document "$name"
-        reprepro --basedir "$repo_base" --delete --component=main --ignore=undefinedtarget includedeb stable "$name"
+        reprepro --basedir . --delete --component=main --ignore=undefinedtarget includedeb stable "$name"
     done
 )}
 
