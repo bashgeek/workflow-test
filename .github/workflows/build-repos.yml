@@ -24,16 +24,13 @@ jobs:
         with:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
           passphrase: ${{ secrets.GPG_PASSWORD }}
-      - name: Make the script files executable
-        run: chmod +x build_repos.sh
       - id: build-repos
         name: Build DEB & RPM Repos
         run: |
-          ./build_repos.sh
-      - id: upload-s3
+          bash build_repos.sh
+      - id: sync-s3
         name: Sync with S3 Storage
         run: |
-          aws s3 ls s3://${AWS_S3_BUCKET}/${DEST_DIR}
           aws s3 sync ${SOURCE_DIR} s3://${AWS_S3_BUCKET}/${DEST_DIR} --no-progress --acl public-read --follow-symlinks --delete
         env:
           AWS_REGION: 'fra'
