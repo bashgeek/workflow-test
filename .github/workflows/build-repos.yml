@@ -28,9 +28,9 @@ jobs:
       - id: build-repos
         run: |
           ./build_repos.sh
-      - uses: jakejarvis/s3-sync-action@master
-        with:
-          args: --acl public-read --follow-symlinks --delete
+      - id: upload-s3
+        run: |
+          aws s3 sync ${SOURCE_DIR} s3://${AWS_S3_BUCKET}/${DEST_DIR} --no-progress --endpoint-url $AWS_S3_ENDPOINT --acl public-read --follow-symlinks --delete
         env:
           AWS_S3_ENDPOINT: ${{ secrets.PKG_S3_SERVER_NAME }}
           AWS_S3_BUCKET: ${{ secrets.PKG_S3_BUCKET_NAME }}
@@ -38,5 +38,3 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.PKG_S3_SECRET }}
           SOURCE_DIR: 'build/repos'
           DEST_DIR: ''
-
-
