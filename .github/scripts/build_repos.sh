@@ -19,7 +19,6 @@ fi
 function install_deps() {(
     sudo apt update
     sudo apt install -y wget jq curl tree dpkg-dev reprepro gunzip
-#    sudo apt install -y createrepo-c || build_createrepo
     build_createrepo
     "$createrepo" --version
 )}
