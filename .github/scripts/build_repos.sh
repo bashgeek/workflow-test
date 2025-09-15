@@ -18,9 +18,10 @@ function install_deps() {(
 function build_createrepo() {
     (
         sudo apt install -y libcurl4-openssl-dev libbz2-dev libxml2-dev libssl-dev zlib1g-dev pkg-config libglib2.0-dev liblzma-dev libsqlite3-dev librpm-dev libzstd-dev python3-dev cmake
-        wget https://github.com/rpm-software-management/createrepo_c/archive/refs/tags/1.2.1.tar.gz -O /tmp/createrepo/source.tar.gz
-        cd /tmp/createrepo
+        wget https://github.com/rpm-software-management/createrepo_c/archive/refs/tags/1.2.1.tar.gz -O /tmp/source.tar.gz
+        cd /tmp/
         gunzip source.tar.gz
+        ls -al
         mkdir build && cd build && cmake ..
         make -j
     )
