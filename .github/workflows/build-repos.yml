@@ -39,4 +39,4 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.PKG_S3_SECRET }}
           AWS_ENDPOINT_URL_S3: ${{ secrets.PKG_S3_SERVER_NAME }}
           SOURCE_DIR: 'build/repos'
-          DEST_DIR: 'repos'
+          DEST_DIR: ''
