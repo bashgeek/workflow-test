@@ -22,11 +22,11 @@ function build_createrepo() {
         cd /tmp/
         tar -xzf source.tar.gz
         cd createrepo_c-1.2.1
-        mkdir build && cd build && cmake ..
+        mkdir build && cd build && cmake .. -Wno-dev
         make -j
     )
 
-    createrepo="/tmp/createrepo/build/src/createrepo_c"
+    createrepo="/tmp/createrepo_c-1.2.1/build/src/createrepo_c"
 }
 
 
