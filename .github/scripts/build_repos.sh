@@ -1,9 +1,10 @@
 #!/bin/bash
 set -euxo pipefail
-
-export createrepo="createrepo_c"
 export DEBIAN_FRONTEND=noninteractive
 export DEBIAN_PRIORITY=critical
+
+export CREATEREPO_VERSION=1.2.1
+export CREATEREPO_BIN="/tmp/createrepo_c-${CREATEREPO_VERSION}/build/src/createrepo_c"
 #export GPG_SIGNING_KEY="${GPG_SIGNING_KEY:-E617DCD4065C2AFC0B2CF7A7BA8BC08C0F691F94}"
 export GPG_SIGNING_KEY="${GPG_SIGNING_KEY:-E83853A942C9BC0AEBFBF6C1101E0B17B596C6A5}"
 
@@ -11,22 +12,20 @@ function install_deps() {(
     sudo apt update
     sudo apt install -y wget jq curl tree dpkg-dev reprepro
     build_createrepo
-    "$createrepo" --version
+    $CREATEREPO_BIN --version
 )}
 
 # createrepo-c in official Ubuntu repo is *very* old, build it ourselves
 function build_createrepo() {
     (
         sudo apt install -y libcurl4-openssl-dev libbz2-dev libxml2-dev libssl-dev zlib1g-dev pkg-config libglib2.0-dev liblzma-dev libsqlite3-dev librpm-dev libzstd-dev python3-dev cmake libzck1 libzck-dev libmodulemd2 libmodulemd-dev
-        wget https://github.com/rpm-software-management/createrepo_c/archive/refs/tags/1.2.1.tar.gz -O /tmp/source.tar.gz
+        wget https://github.com/rpm-software-management/createrepo_c/archive/refs/tags/${CREATEREPO_VERSION}.tar.gz -O /tmp/source.tar.gz
         cd /tmp/
         tar -xzf source.tar.gz
-        cd createrepo_c-1.2.1
+        cd createrepo_c-${CREATEREPO_VERSION}
         mkdir build && cd build && cmake .. -Wno-dev
         make -j
     )
-
-    createrepo="/tmp/createrepo_c-1.2.1/build/src/createrepo_c"
 }
 
 
@@ -76,7 +75,7 @@ function build_repos_rpms() {(
     for dir in "$repo_base"/*; do
         (
             cd "$dir"
-            "$createrepo" .
+            $CREATEREPO_BIN .
         )
     done
 )}
