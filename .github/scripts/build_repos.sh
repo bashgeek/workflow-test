@@ -7,18 +7,9 @@ export DEBIAN_PRIORITY=critical
 #export GPG_SIGNING_KEY="${GPG_SIGNING_KEY:-E617DCD4065C2AFC0B2CF7A7BA8BC08C0F691F94}"
 export GPG_SIGNING_KEY="${GPG_SIGNING_KEY:-E83853A942C9BC0AEBFBF6C1101E0B17B596C6A5}"
 
-if ! command -v sudo 2>/dev/null ; then
-    # Shim sudo to support running in a container without it.
-    #
-    # $ podman run --mount "type=bind,source=$PWD,destination=/openbao" --workdir /openbao -it ubuntu:latest bash /openbao/scripts/genrepos.sh
-    function sudo() {
-        "$@"
-    }
-fi
-
 function install_deps() {(
     sudo apt update
-    sudo apt install -y wget jq curl tree dpkg-dev reprepro gunzip
+    sudo apt install -y wget jq curl tree dpkg-dev reprepro
     build_createrepo
     "$createrepo" --version
 )}
