@@ -19,6 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - id: gpg-import
+        name: Import GPG Keys
         uses: crazy-max/ghaction-import-gpg@v6
         with:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
@@ -26,9 +27,11 @@ jobs:
       - name: Make the script files executable
         run: chmod +x build_repos.sh
       - id: build-repos
+        name: Build DEB & RPM Repos
         run: |
           ./build_repos.sh
       - id: upload-s3
+        name: Sync with S3 Storage
         run: |
           aws s3 sync ${SOURCE_DIR} s3://${AWS_S3_BUCKET}/${DEST_DIR} --no-progress --endpoint-url $AWS_S3_ENDPOINT --acl public-read --follow-symlinks --delete
         env:
