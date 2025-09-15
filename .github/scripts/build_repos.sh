@@ -18,21 +18,19 @@ fi
 
 function install_deps() {(
     sudo apt update
-    sudo apt install -y wget jq curl tree dpkg-dev reprepro
+    sudo apt install -y wget jq curl tree dpkg-dev reprepro gunzip
 #    sudo apt install -y createrepo-c || build_createrepo
     build_createrepo
     "$createrepo" --version
 )}
 
-# createrepo and createrepo_c are no longer packaged for Ubuntu all ubuntu
-# releases.
-#
-# See also: https://launchpad.net/ubuntu/jammy/amd64/createrepo-c
+# createrepo-c in official Ubuntu repo is very old, build it ourselve
 function build_createrepo() {
     (
         sudo apt install -y libcurl4-openssl-dev libbz2-dev libxml2-dev libssl-dev zlib1g-dev pkg-config libglib2.0-dev liblzma-dev libsqlite3-dev librpm-dev libzstd-dev python3-dev cmake
-        git clone https://github.com/rpm-software-management/createrepo_c /tmp/createrepo git
+        wget https://github.com/rpm-software-management/createrepo_c/archive/refs/tags/1.2.1.tar.gz -O /tmp/createrepo/source.tar.gz
         cd /tmp/createrepo
+        gunzip source.tar.gz
         mkdir build && cd build && cmake ..
         make -j
     )
